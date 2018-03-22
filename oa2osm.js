@@ -34,7 +34,8 @@ var transformer = transform(function(record, callback){
             lat: record.LAT,
             lon: record.LON,
             visible: "true",
-            version: "1"
+            version: "1",
+            id: -count
         }
     }];
     Object.keys(map).map((oaKey) => {
