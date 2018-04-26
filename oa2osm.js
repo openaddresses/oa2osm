@@ -56,7 +56,7 @@ var transformer = transform(function(record, callback){
 
 var output = fs.createWriteStream(process.argv[3]);
 output.write('<?xml version="1.0" encoding="UTF-8"?>' + "\n");
-output.write('<osm version="0.6" generator="oa2osm">' + "\n");
+output.write('<osm version="0.6" generator="https://github.com/openaddresses/oa2osm">' + "\n");
 fs.createReadStream(process.argv[2])
     .pipe(parser)
     .pipe(transformer)
