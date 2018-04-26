@@ -1,9 +1,8 @@
 # oa2osm
-OpenAddresses to OpenStreetMap
+Converts [OpenAddresses result CSVs](https://openaddresses.io/) to [OpenStreetMap XML](https://wiki.openstreetmap.org/wiki/OSM_XML).
 
-Download a result from http://results.openaddresses.io/
+# How to use
+Download a result CSV from http://results.openaddresses.io/
 
     npm install
-    ./oa2osm.js oa.csv oa.osm
-
-Addresses are written to `oa.osm`.
+    ./oa2osm.js input.csv output.osm
