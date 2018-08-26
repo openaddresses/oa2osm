@@ -1,17 +1,20 @@
 #!/usr/bin/env node
 
-var fs = require('fs');
-var parse = require('csv-parse');
-var transform = require('stream-transform');
-var xml = require('xml');
-var numeral = require('numeral');
+const fs = require('fs');
+const parse = require('csv-parse');
+const transform = require('stream-transform');
+const xml = require('xml');
+const numeral = require('numeral');
+const argv = require('minimist')(process.argv.slice(2), {
+    boolean: ['help', 'h']
+});
 
-if (process.argv.length < 4) {
+if (argv.h|| argv.help) {
     console.error("Usage: ./oa2osm.js oa.csv oa.osm");
     process.exit();
 }
 
-var map = {
+const map = {
     'UNIT': 'addr:unit',
     'NUMBER': 'addr:housenumber',
     'STREET': 'addr:street',
@@ -21,15 +24,37 @@ var map = {
     'POSTCODE': 'addr:postcode'
 };
 
-var count = 0;
+// tags to title case if option given
+const titleCaseTags = argv['title-case'].split(',').map((attribute) => {
+    return attribute.toUpperCase();
+});
 
-var parser = parse({ columns: true });
-var transformer = transform(function(record, callback){
+// allow user to override tag mapping
+Object.keys(map).forEach((key) => {
+    if (argv['map-' + key.toLowerCase()]) {
+        map[key] = argv['map-' + key.toLowerCase()];
+    }
+});
+
+/* https://stackoverflow.com/a/196991/6702659 */
+function toTitleCase(str) {
+    return str.replace(
+        /\w\S*/g,
+        (txt) => {
+            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+        }
+    );
+}
+
+let count = 0;
+
+const parser = parse({ columns: true });
+const transformer = transform((record, callback) => {
     count++;
     if (count % 100 == 0) {
         process.stdout.write(" " + numeral(count).format('0a') + "   \r");
     }
-    var e = [{
+    const e = [{
         _attr: {
             lat: record.LAT,
             lon: record.LON,
@@ -44,20 +69,20 @@ var transformer = transform(function(record, callback){
                 tag: {
                     _attr: {
                         k: map[oaKey],
-                        v: record[oaKey]
+                        v: (titleCaseTags.includes(oaKey)) ? toTitleCase(record[oaKey]) : record[oaKey]
                     }
                 }
             });
         }
     });
-    var node = xml([{ node: e }], true);
+    const node = xml([{ node: e }], true);
     callback(null, node + "\n");
 }, {parallel: 10});
 
-var output = fs.createWriteStream(process.argv[3]);
+const output = fs.createWriteStream(argv._.length > 1 ? argv._[1] : '/dev/stdout');
 output.write('<?xml version="1.0" encoding="UTF-8"?>' + "\n");
 output.write('<osm version="0.6" generator="https://github.com/openaddresses/oa2osm">' + "\n");
-fs.createReadStream(process.argv[2])
+fs.createReadStream(argv._.length > 0 ? argv._[0] : '/dev/stdin')
     .pipe(parser)
     .pipe(transformer)
     .pipe(output, { end: false });

@@ -4,15 +4,16 @@
   "description": "Converts OpenAddresses result CSVs to OpenStreetMap XML",
   "main": "oa2osm.js",
   "bin": {
-      "oa2osm": "./oa2osm.js"
+    "oa2osm": "./oa2osm.js"
   },
   "license": "MIT",
   "repository": {
-      "type": "git",
-      "url": "https://github.com/openaddresses/oa2osm"
+    "type": "git",
+    "url": "https://github.com/openaddresses/oa2osm"
   },
   "dependencies": {
     "csv-parse": "^2.0.4",
+    "minimist": "^1.2.0",
     "numeral": "^2.0.6",
     "stream-transform": "^1.0.2",
     "xml": "^1.0.1"
