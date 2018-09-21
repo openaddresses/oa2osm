@@ -10,7 +10,16 @@ const argv = require('minimist')(process.argv.slice(2), {
 });
 
 if (argv.h|| argv.help) {
-    console.error("Usage: ./oa2osm.js oa.csv oa.osm");
+    console.error("Usage: ./oa2osm.js [options] [input.csv] [output.osm]");
+    console.error("");
+    console.error("Options:");
+    console.error("    --title-case                    Comma separated list of source");
+    console.error("                                    fields to convert to title case.");
+    console.error("    --map-source_field=target_tag   Define a source field to target tag.");
+    console.error("");
+    console.error("Example:");
+    console.error("    oa2osm --title-case 'STREET,CITY' --map-city='addr:suburb'");
+
     process.exit();
 }
 
@@ -25,7 +34,7 @@ const map = {
 };
 
 // tags to title case if option given
-const titleCaseTags = argv['title-case'].split(',').map((attribute) => {
+const titleCaseTags = (argv['title-case'] || '').split(',').map((attribute) => {
     return attribute.toUpperCase();
 });
 
