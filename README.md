@@ -4,12 +4,19 @@ Converts [OpenAddresses result CSVs](https://openaddresses.io/) to [OpenStreetMa
 # How to use
 Download a result CSV from http://results.openaddresses.io/
 
+## Locally
+    git clone https://github.com/openaddresses/oa2osm.git
+    cd oa2osm
     npm install
     ./oa2osm.js input.csv output.osm
 
+## Globally
+    npm install --global oa2osm
+    oa2osm input.csv output.osm
+
 # Usage
 ```
-Usage: ./oa2osm.js [options] [input.csv] [output.osm]
+Usage: oa2osm [options] [input.csv] [output.osm]
 
 Options:
     --title-case                    Comma separated list of source
