@@ -6,6 +6,7 @@
   "bin": {
     "oa2osm": "./oa2osm.js"
   },
+  "test": "./test.sh",
   "license": "MIT",
   "repository": {
     "type": "git",
