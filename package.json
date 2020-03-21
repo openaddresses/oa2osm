@@ -7,7 +7,7 @@
     "oa2osm": "./oa2osm.js"
   },
   "scripts": {
-      "test": "./test.sh"
+    "test": "./test.sh"
   },
   "license": "MIT",
   "repository": {
@@ -15,10 +15,10 @@
     "url": "https://github.com/openaddresses/oa2osm"
   },
   "dependencies": {
-    "csv-parse": "^2.0.4",
+    "csv-parse": "^4.8.8",
     "minimist": "^1.2.0",
     "numeral": "^2.0.6",
-    "stream-transform": "^1.0.2",
+    "stream-transform": "^2.0.1",
     "xml": "^1.0.1"
   }
 }

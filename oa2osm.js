@@ -3,6 +3,7 @@
 const fs = require('fs');
 const parse = require('csv-parse');
 const transform = require('stream-transform');
+const {pipeline} = require('stream');
 const xml = require('xml');
 const numeral = require('numeral');
 const argv = require('minimist')(process.argv.slice(2), {
@@ -10,13 +11,14 @@ const argv = require('minimist')(process.argv.slice(2), {
 });
 
 if (argv.h|| argv.help) {
+    console.error();
     console.error("Usage: ./oa2osm.js [options] [input.csv] [output.osm]");
-    console.error("");
+    console.error();
     console.error("Options:");
     console.error("    --title-case                    Comma separated list of source");
     console.error("                                    fields to convert to title case.");
     console.error("    --map-source_field=target_tag   Define a source field to target tag.");
-    console.error("");
+    console.error();
     console.error("Example:");
     console.error("    oa2osm --title-case 'STREET,CITY' --map-city='addr:suburb'");
 
@@ -91,12 +93,18 @@ const transformer = transform((record, callback) => {
 const output = fs.createWriteStream(argv._.length > 1 ? argv._[1] : '/dev/stdout');
 output.write('<?xml version="1.0" encoding="UTF-8"?>' + "\n");
 output.write('<osm version="0.6" generator="https://github.com/openaddresses/oa2osm">' + "\n");
-fs.createReadStream(argv._.length > 0 ? argv._[0] : '/dev/stdin')
-    .pipe(parser)
-    .pipe(transformer)
-    .pipe(output, { end: false });
 
-// fixme is there a race condition here? transformer finished but last note not yet written?
-transformer.on('end', () => {
-    output.write('</osm>' + "\n");
-});
+pipeline(
+    fs.createReadStream(argv._.length > 0 ? argv._[0] : '/dev/stdin'),
+    parser,
+    transformer,
+    output,
+    (err) => {
+        if (argv._.length) {
+            fs.appendFileSync(argv._[1], '</osm>\n');
+        } else {
+            process.stdout.write('</osm>\n');
+        }
+    }
+)
+
