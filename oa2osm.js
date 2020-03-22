@@ -101,7 +101,7 @@ pipeline(
     output,
     (err) => {
         if (argv._.length) {
-            fs.appendFileSync(argv._[1], '</osm>\n');
+            fs.appendFileSync(argv._[0], '</osm>\n');
         } else {
             process.stdout.write('</osm>\n');
         }
