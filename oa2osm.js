@@ -3,7 +3,7 @@
 const fs = require('fs');
 const parse = require('csv-parse');
 const transform = require('stream-transform');
-const {pipeline} = require('stream');
+const { pipeline } = require('readable-stream');
 const xml = require('xml');
 const numeral = require('numeral');
 const argv = require('minimist')(process.argv.slice(2), {
@@ -107,4 +107,3 @@ pipeline(
         }
     }
 )
-
