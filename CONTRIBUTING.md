@@ -6,6 +6,7 @@ We ask that all contributions be made via a pull request rather than committing 
 
 - Bump package.json version
 - `git add package.json`
+- Update CHANGELOG.md and `git add CHANGELOG.md`
 - `git commit -m 'vX.X.X'`
 - `git tag -a X.X.X -m 'X.X.X'`
 - `git push`
