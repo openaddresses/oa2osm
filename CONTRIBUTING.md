@@ -1,3 +1,7 @@
+# Contributing
+
+We ask that all contributions be made via a pull request rather than committing directly to master, to provide other contributors a chance to review proposed changes. If the pull request has not received any attention in a few days, in the interest of not stalling development it can be merged based on your judgement but where possible it should be approved by another contributor being being merged.
+
 # Releasing
 
 - Bump package.json version
