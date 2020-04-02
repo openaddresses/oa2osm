@@ -100,11 +100,11 @@ pipeline(
     transformer,
     output,
     (err) => {
-      if (argv._.length > 1) {
-        fs.appendFileSync(argv._[1], '</osm>\n');
-      } else {
-        process.stdout.write('</osm>\n');
-      }
+        if (argv._.length > 1) {
+            fs.appendFileSync(argv._[1], '</osm>\n');
+        } else {
+            process.stdout.write('</osm>\n');
+        }
     }
 )
 
