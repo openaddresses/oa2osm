@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<osm version="0.6" generator="https://github.com/openaddresses/oa2osm">
+<osm version="0.6" upload="false" generator="https://github.com/openaddresses/oa2osm">
 <node lat="-34" lon="150" visible="true" version="1" id="-1">
     <tag k="addr:housenumber" v="1"/>
     <tag k="addr:street" v="First Street"/>
