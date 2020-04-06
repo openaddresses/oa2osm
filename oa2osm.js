@@ -92,7 +92,7 @@ const transformer = transform((record, callback) => {
 
 const output = fs.createWriteStream(argv._.length > 1 ? argv._[1] : '/dev/stdout');
 output.write('<?xml version="1.0" encoding="UTF-8"?>' + "\n");
-output.write('<osm version="0.6" generator="https://github.com/openaddresses/oa2osm">' + "\n");
+output.write('<osm version="0.6" upload="false" generator="https://github.com/openaddresses/oa2osm">' + "\n");
 
 pipeline(
   fs.createReadStream(argv._.length > 0 ? argv._[0] : '/dev/stdin'),
