@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const fs = require('fs');
-const parse = require('csv-parse');
+const {split} = require('event-stream');
 const transform = require('stream-transform');
 const {pipeline} = require('stream');
 const xml = require('xml');
@@ -12,7 +12,7 @@ const argv = require('minimist')(process.argv.slice(2), {
 
 if (argv.h|| argv.help) {
   console.error();
-  console.error("Usage: ./oa2osm.js [options] [input.csv] [output.osm]");
+  console.error("Usage: ./oa2osm.js [options] [input.geojson] [output.osm]");
   console.error();
   console.error("Options:");
   console.error("    --title-case                    Comma separated list of source");
@@ -26,18 +26,18 @@ if (argv.h|| argv.help) {
 }
 
 const map = {
-  'UNIT': 'addr:unit',
-  'NUMBER': 'addr:housenumber',
-  'STREET': 'addr:street',
-  'CITY': 'addr:city',
-  'DISTRICT': 'addr:district',
-  'REGION': 'addr:state',
-  'POSTCODE': 'addr:postcode'
+  'unit': 'addr:unit',
+  'number': 'addr:housenumber',
+  'street': 'addr:street',
+  'city': 'addr:city',
+  'district': 'addr:district',
+  'region': 'addr:state',
+  'postcode': 'addr:postcode'
 };
 
 // tags to title case if option given
 const titleCaseTags = (argv['title-case'] || '').split(',').map((attribute) => {
-  return attribute.toUpperCase();
+  return attribute.toLowerCase();
 });
 
 // allow user to override tag mapping
@@ -59,28 +59,29 @@ function toTitleCase(str) {
 
 let count = 0;
 
-const parser = parse({ columns: true });
 const transformer = transform((record, callback) => {
+  const parsedRecord = JSON.parse(record);
   count++;
   if (count % 100 == 0) {
     process.stdout.write(" " + numeral(count).format('0a') + "   \r");
   }
   const e = [{
     _attr: {
-      lat: record.LAT,
-      lon: record.LON,
+      lat: parsedRecord.geometry.coordinates[1],
+      lon: parsedRecord.geometry.coordinates[0],
       visible: "true",
       version: "1",
       id: -count
     }
   }];
+  const props = parsedRecord.properties;
   Object.keys(map).map((oaKey) => {
-    if (record[oaKey]) {
+    if (props[oaKey]) {
       e.push({
         tag: {
           _attr: {
             k: map[oaKey],
-            v: (titleCaseTags.includes(oaKey)) ? toTitleCase(record[oaKey]) : record[oaKey]
+            v: (titleCaseTags.includes(oaKey)) ? toTitleCase(props[oaKey]) : props[oaKey]
           }
         }
       });
@@ -96,7 +97,7 @@ output.write('<osm version="0.6" upload="false" generator="https://github.com/op
 
 pipeline(
   fs.createReadStream(argv._.length > 0 ? argv._[0] : '/dev/stdin'),
-  parser,
+  split(),
   transformer,
   output,
   () => {

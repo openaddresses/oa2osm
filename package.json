@@ -1,7 +1,7 @@
 {
   "name": "oa2osm",
   "version": "1.2.1",
-  "description": "Converts OpenAddresses result CSVs to OpenStreetMap XML",
+  "description": "Converts OpenAddresses result GeoJSON to OpenStreetMap XML",
   "main": "oa2osm.js",
   "bin": {
     "oa2osm": "./oa2osm.js"
@@ -16,7 +16,7 @@
     "url": "https://github.com/openaddresses/oa2osm"
   },
   "dependencies": {
-    "csv-parse": "^4.8.8",
+    "event-stream": "^4.0.1",
     "minimist": "^1.2.0",
     "numeral": "^2.0.6",
     "stream-transform": "^2.0.1",
