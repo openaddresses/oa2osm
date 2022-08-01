@@ -1,0 +1,2 @@
+{"type":"Feature","properties":{"hash":"a","number":"1","street":"First Street","unit":"","city":"OAVILLE","district":"","region":"NSW","postcode":"2000","id":"0"},"geometry":{"type":"Point","coordinates":[150,-34]}}
+{"type":"Feature","properties":{"hash":"b","number":"2","street":"Second Street","unit":"1","city":"OAVILLE","district":"","region":"NSW","postcode":"2000","id":"1"},"geometry":{"type":"Point","coordinates":[151,-35]}}

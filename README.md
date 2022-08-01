@@ -1,22 +1,22 @@
 # oa2osm
-Converts [OpenAddresses result CSVs](https://openaddresses.io/) to [OpenStreetMap XML](https://wiki.openstreetmap.org/wiki/OSM_XML).
+Converts [OpenAddresses result GeoJSON](https://batch.openaddresses.io/data) to [OpenStreetMap XML](https://wiki.openstreetmap.org/wiki/OSM_XML).
 
 # How to use
-Download a result CSV from http://results.openaddresses.io/
+Download a result GeoJSON file from https://batch.openaddresses.io/data
 
 ## Locally
     git clone https://github.com/openaddresses/oa2osm.git
     cd oa2osm
     npm install
-    ./oa2osm.js input.csv output.osm
+    ./oa2osm.js input.geojson output.osm
 
 ## Globally
     npm install --global oa2osm
-    oa2osm input.csv output.osm
+    oa2osm input.geojson output.osm
 
 # Usage
 ```
-Usage: oa2osm [options] [input.csv] [output.osm]
+Usage: oa2osm [options] [input.geojson] [output.osm]
 
 Options:
     --title-case                    Comma separated list of source
