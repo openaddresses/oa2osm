@@ -1,6 +1,6 @@
 {
   "name": "oa2osm",
-  "version": "1.2.1",
+  "version": "2.0.0",
   "description": "Converts OpenAddresses result GeoJSON to OpenStreetMap XML",
   "main": "oa2osm.js",
   "bin": {
